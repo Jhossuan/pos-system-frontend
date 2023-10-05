@@ -5,8 +5,8 @@ export const routes: Record<string, object> = {
         route: "/"
     },
     usuarios: {
-        title: "Inicio",
-        description: "Este es el dashboard",
+        title: "Usuarios",
+        description: "Sección de los usuarios",
         route: "/users"
     }
 }

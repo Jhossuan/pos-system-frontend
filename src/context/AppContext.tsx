@@ -9,22 +9,27 @@ declare global {
 interface AppContextI {
     user: string
     setUser: (user: string) => void
+    userToken: any
 }
 
 export const AppContext = createContext<AppContextI>({
     user: "User Test",
-    setUser: () => {}
+    setUser: () => {},
+    userToken:""
 })
 
 export const AppContextProvider = (props: ChildrenProps) => {
 
     const [user, setUser] = useState("Test")
 
+    const userToken = false
+
     return (
         <AppContext.Provider
             value={{
                 user,
-                setUser
+                setUser,
+                userToken
             }}
         >
             {props.children}
