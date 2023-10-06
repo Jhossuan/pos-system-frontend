@@ -1,15 +1,51 @@
-import { Row, Col } from 'antd'
-import { PublicRoute } from '../../utils/auth_tool'
+import { Col, Form, Input, Button, Divider } from 'antd'
+import { BigText, InputCard, SmallText } from '../../styles/AuthStyles'
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import { validateMessages } from '../../utils/input_validation';
+import { useContext } from 'react';
+import { AppContext } from '../../context/AppContext';
+// import { AuthService } from '../../services/auth_service';
 
 const Login = () => {
-  
-  PublicRoute()
 
+  const { setUserEntry } = useContext(AppContext)
+  const [form] = Form.useForm()
+  // const authData = new AuthService()
+
+  const onFinish = async(data: { email: string, password: string }) => {
+    console.log(data)
+    // await authData.Register()
+  }
+  
   return (
-    <Row style={{ height:'100%', width:'100%' }}>
-      <Col sm={24} md={12} lg={12} style={{ background: "#FFA500", display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center' }}>Espacio 1</Col>
-      <Col sm={24} md={12} lg={12} style={{ background: "#333333", display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center' }}>Espacio 2</Col>
-    </Row>
+        <Col xs={24} sm={24} md={24} lg={12} xl={12} style={{ display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <InputCard>
+            <SmallText textAlign='left'>Bienvenido a <span style={{ color:"#0366d6" }}>Jhoval Digital</span></SmallText>
+            <BigText textAlign='left'>Iniciar Sesión</BigText>
+
+          <Form form={form} onFinish={onFinish} style={{ margin: '4em 0 0 auto' }} validateMessages={validateMessages}>
+
+            <Form.Item name="email" rules={[{ type: 'email', required: true }]} style={{ margin:'2em 0' }}>
+              <Input prefix={<MailOutlined />} placeholder='Correo Electrónico' />
+            </Form.Item>
+
+            <Form.Item name="password" rules={[{ required: true }]} style={{ margin:'2em 0' }}>
+              <Input type='password' prefix={<LockOutlined />} placeholder='Contraseña' />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Iniciar Sesión</Button>
+              <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }}>Olvidé mi contraseña</span></SmallText>
+            </Form.Item>
+
+          </Form>
+
+            <Divider> o </Divider>
+            <SmallText fontSize='1em'>¿No tienes una cuenta? <span style={{ color:"#0366d6", cursor: 'pointer', textDecoration:'underline' }} onClick={() => setUserEntry('register')}>Registrarse</span></SmallText>
+
+
+          </InputCard>
+        </Col>
   )
 }
 

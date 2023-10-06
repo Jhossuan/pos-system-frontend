@@ -6,30 +6,32 @@ declare global {
     }
 }
 
+type UserEntryT = 'login' | 'register' | 'completeProfile' | 'auth'
+
 interface AppContextI {
-    user: string
-    setUser: (user: string) => void
-    userToken: any
+    userToken: string | null
+    setUserEntry: (user: UserEntryT) => void
+    userEntry: UserEntryT
 }
 
 export const AppContext = createContext<AppContextI>({
-    user: "User Test",
-    setUser: () => {},
-    userToken:""
+    userToken:"",
+    setUserEntry: (user: string) => user,
+    userEntry: 'login'
 })
 
 export const AppContextProvider = (props: ChildrenProps) => {
 
-    const [user, setUser] = useState("Test")
+    const [userEntry, setUserEntry] = useState<UserEntryT>("login")
 
-    const userToken = false
+    const userToken = sessionStorage.getItem('token')
 
     return (
         <AppContext.Provider
             value={{
-                user,
-                setUser,
-                userToken
+                userToken,
+                userEntry,
+                setUserEntry
             }}
         >
             {props.children}

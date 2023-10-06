@@ -13,12 +13,12 @@ export const ProtectedRoutes = (props: any) => {
 
 }
 
-export const PublicRoute = () => {
+export const PublicRoute = (props: any) => {
     const { userToken } = useContext(AppContext)
 
     if(userToken){
       Navigate({ to:"/" })
     }
 
-    return
+    return props.children
 }

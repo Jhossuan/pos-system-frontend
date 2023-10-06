@@ -1,9 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import Register from '../Auth/Register'
-import Login from '../Auth/Login'
 import AppLayout from '../../components/AppLayout'
-import { ProtectedRoutes } from '../../utils/auth_tool'
+import { ProtectedRoutes, PublicRoute } from '../../utils/auth_tool'
 import Home from '../Home/Home'
+import UserEntry from '../Auth/UserEntry'
 
 const Application = () => {
   return (
@@ -11,15 +10,18 @@ const Application = () => {
       <Routes>
 
   {/* ----------------- RUTAS PROTEGIDAS ------------------  */}
-          <Route path='/' element={
+          <Route path='/home' element={
             <ProtectedRoutes>
               <Home />
             </ProtectedRoutes>}
           />
 
   {/* ----------------- RUTAS PUBLICAS ------------------  */}
-          <Route path='/login' element={<Login />}/>
-          <Route path='/register' element={<Register />}/>
+          <Route path='/' element={
+            <PublicRoute>
+              <UserEntry />
+            </PublicRoute>
+          }/>
 
       </Routes>
     </AppLayout>
