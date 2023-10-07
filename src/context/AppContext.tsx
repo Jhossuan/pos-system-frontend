@@ -6,7 +6,7 @@ declare global {
     }
 }
 
-type UserEntryT = 'login' | 'register' | 'completeProfile' | 'auth'
+type UserEntryT = 'login' | 'register' | 'verificateAccount' | 'forgotPassword'
 
 interface AppContextI {
     userToken: string | null
@@ -16,7 +16,7 @@ interface AppContextI {
 
 export const AppContext = createContext<AppContextI>({
     userToken:"",
-    setUserEntry: (user: string) => user,
+    setUserEntry: (user: UserEntryT) => user,
     userEntry: 'login'
 })
 

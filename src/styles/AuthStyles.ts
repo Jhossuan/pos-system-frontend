@@ -28,8 +28,14 @@ export const InputCard = styled.div`
     box-shadow: 0px 10px 50px 1px #0003;
     padding: 50px;
 
+    @media (min-width: 1600px){
+      min-height: 20%;
+      width: 50%;
+    }
+
     @media (max-width: 768px){
-      width: 90%
+      width: 90%;
+      min-height: 40%;
     }
 `
 
@@ -43,10 +49,6 @@ export const BigText = styled.p<TextI>`
     margin-right: ${(props) => props.marginRight};
     margin-top: ${(props) => props.marginTop || "0"};
     margin-bottom: ${(props) => props.marginBottom || "0"};
-
-    @media (min-width: 1920px){
-      font-size: 4.5em;
-    }
 
     @media (max-width: 992px){
       text-align: ${(props) => props.textAlignR || "center"};
@@ -66,10 +68,6 @@ export const MediumText = styled.p<TextI>`
     margin-top: 0;
     margin-bottom: 0;
 
-    @media (min-width: 1920px){
-      font-size: 2em;
-    }
-
     @media (max-width: 992px){
       text-align: ${(props) => props.textAlignR || "center"}
     }
@@ -86,10 +84,6 @@ export const SmallText = styled.p<TextI>`
     line-height: ${(props) => props.lineHeight || "40px"};
     margin-top: 0;
     margin-bottom: 0;
-
-    @media (min-width: 1920px){
-      font-size: 2em;
-    }
 
     @media (max-width: 992px){
       text-align: ${(props) => props.textAlignR || "center"}

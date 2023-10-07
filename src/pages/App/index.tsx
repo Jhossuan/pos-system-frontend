@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import AppLayout from '../../components/AppLayout'
-import { ProtectedRoutes, PublicRoute } from '../../utils/auth_tool'
+import { RequireAuth, NotRequireAuth } from '../../utils/auth_tool'
 import Home from '../Home/Home'
 import UserEntry from '../Auth/UserEntry'
 
@@ -11,16 +11,16 @@ const Application = () => {
 
   {/* ----------------- RUTAS PROTEGIDAS ------------------  */}
           <Route path='/home' element={
-            <ProtectedRoutes>
+            <RequireAuth>
               <Home />
-            </ProtectedRoutes>}
-          />
+            </RequireAuth>
+          }/>
 
   {/* ----------------- RUTAS PUBLICAS ------------------  */}
           <Route path='/' element={
-            <PublicRoute>
+            <NotRequireAuth>
               <UserEntry />
-            </PublicRoute>
+            </NotRequireAuth>
           }/>
 
       </Routes>

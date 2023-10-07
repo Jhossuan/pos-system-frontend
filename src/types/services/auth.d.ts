@@ -21,7 +21,7 @@ export type SubscriptionsT =
     "PROFESIONAL"
 
 export type MetadataI = {
-    lastConnection: Date | null
+    lastConnection?: Date | null
     subscription?: SubscriptionsT
 }
 
@@ -30,5 +30,5 @@ export interface RegisterSchema {
     "email":string
     "password":string
     //EL CAMPO DE ABAJO SOLO ES PARA EL OWNER
-    "metadata": MetadataI
+    "metadata"?: MetadataI
 }

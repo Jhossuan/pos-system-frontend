@@ -82,7 +82,7 @@ const AppLayout = (props: LayoutProps) => {
                             type='primary'
                             icon={<LogoutOutlined />}
                             danger
-                            onClick={() => console.log('Cerrar sesión')}
+                            onClick={() => {sessionStorage.clear(), location.reload()}}
                         />
                     </Tooltip>
                     <Tooltip title="Configuraciones">

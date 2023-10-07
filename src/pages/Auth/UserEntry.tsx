@@ -4,6 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import { AppContext } from '../../context/AppContext';
 import { useContext } from 'react'
+import Auth from './Auth';
 
 const UserEntry = () => {
 
@@ -15,6 +16,8 @@ const UserEntry = () => {
         return <Login />     
       case "register":
         return <Register />
+      case "verificateAccount":
+        return <Auth />
       default:
         return <Login />
     }
