@@ -53,7 +53,7 @@ const Login = () => {
 
             <Form.Item>
               <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Iniciar Sesión</Button>
-                <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }}>Olvidé mi contraseña</span></SmallText>
+                <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }} onClick={() => setUserEntry('forgotPassword')}>Olvidé mi contraseña</span></SmallText>
             </Form.Item>
 
           </Form>

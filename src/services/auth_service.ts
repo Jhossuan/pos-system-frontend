@@ -20,6 +20,14 @@ export class AuthService {
         return await axios.post('auth/verificate-account', data)
     }
 
+    async VerificateRepassword(data: { uid: string, code: string }) {
+        return await axios.post('auth/verificate-repassword', data)
+    }
+
+    async NewPassword(data: { uid: string, password: string }) {
+        return await axios.post('auth/re-password', data)
+    }
+
     async Login(data: { email: string, password: string }){
         return await axios.post('auth/login', data)
     }

@@ -5,6 +5,7 @@ import Register from './Register';
 import { AppContext } from '../../context/AppContext';
 import { useContext } from 'react'
 import Auth from './Auth';
+import ForgotPassword from './ForgotPassword';
 
 const UserEntry = () => {
 
@@ -18,6 +19,8 @@ const UserEntry = () => {
         return <Register />
       case "verificateAccount":
         return <Auth />
+      case "forgotPassword":
+        return <ForgotPassword />
       default:
         return <Login />
     }
