@@ -10,6 +10,7 @@ const ForgotsPassword = () => {
 
     const [ steps, setSteps ] = useState<number>(0)
     const [ uid, setUid ] = useState<string>('')
+    const [ loading, setLoading ] = useState<boolean>(false)
 
     const { setUserEntry } = useContext(AppContext)
     const [form] = Form.useForm()
@@ -23,6 +24,7 @@ const ForgotsPassword = () => {
             })
         }
         try {
+            setLoading(true)
             const res = await authService.SendVerificationCode({ email, repassword: true })
             if(res.status !== 200){
                 return notification.error({
@@ -33,8 +35,11 @@ const ForgotsPassword = () => {
                 message: 'Código enviado a tu correo, revisa tu bandeja de entrada.'
             })
             setUid(res.data.uid)
+            form.resetFields()
+            setLoading(false)
             setSteps(1)
         } catch (error: any) {
+            setLoading(false)
             return notification.error({
                 message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
             })
@@ -53,6 +58,7 @@ const ForgotsPassword = () => {
             code
         }
         try {
+            setLoading(true)
             const res = await authService.VerificateRepassword(request)
             if(res.status !== 200){
                 return notification.error({
@@ -62,8 +68,11 @@ const ForgotsPassword = () => {
             notification.success({
                 message: 'Usuario verificado correctamente, reestablece tu contraseña'
             })
+            form.resetFields()
+            setLoading(false)
             setSteps(2)
         } catch (error: any) {
+            setLoading(false)
             return notification.error({
                 message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
             })
@@ -79,6 +88,7 @@ const ForgotsPassword = () => {
         }
 
         try {
+            setLoading(true)
             const res = await authService.NewPassword({ uid, password })
             if(res.status !== 200){
                 return notification.error({
@@ -88,8 +98,11 @@ const ForgotsPassword = () => {
             notification.success({
                 message: "Contraseña restablecida correctamente."
             })
+            form.resetFields()
+            setLoading(false)
             setUserEntry('login')
         } catch (error: any) {
+            setLoading(false)
             return notification.error({
                 message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
             })
@@ -110,7 +123,7 @@ const ForgotsPassword = () => {
                                 <Input prefix={<MailOutlined />} placeholder='Correo Electrónico' />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Enviar código</Button>
+                                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Enviar código' }</Button>
                             </Form.Item>
                         </Form>
                     </>
@@ -126,7 +139,7 @@ const ForgotsPassword = () => {
                                 <Input prefix={<LockOutlined />} placeholder='Código' />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Enviar código</Button>
+                                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Válidar código' }</Button>
                             </Form.Item>
                         </Form>
                     </>
@@ -168,7 +181,7 @@ const ForgotsPassword = () => {
                             <Input type='password' prefix={<LockOutlined />} placeholder='Repetir contraseña' />
                         </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Enviar código</Button>
+                                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Crear nueva contraseña' }</Button>
                             </Form.Item>
                         </Form>
                     </>

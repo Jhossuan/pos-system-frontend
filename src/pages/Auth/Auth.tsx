@@ -10,6 +10,7 @@ const Auth = () => {
 
     const [ steps, setSteps ] = useState<number>(0)
     const [ uid, setUid ] = useState<string>('')
+    const [ loading, setLoading ] = useState<boolean>(false)
 
     const { setUserEntry } = useContext(AppContext)
     const [form] = Form.useForm()
@@ -23,6 +24,7 @@ const Auth = () => {
             })
         }
         try {
+            setLoading(true)
             const res = await authService.SendVerificationCode({ email })
             if(res.status !== 200){
                 return notification.error({
@@ -33,8 +35,11 @@ const Auth = () => {
                 message: 'Código enviado a tu correo, revisa tu bandeja de entrada.'
             })
             setUid(res.data.uid)
+            form.resetFields()
+            setLoading(false)
             setSteps(1)
         } catch (error: any) {
+            setLoading(false)
             return notification.error({
                 message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
             })
@@ -53,6 +58,7 @@ const Auth = () => {
             code
         }
         try {
+            setLoading(true)
             const res = await authService.VerificateAccount(request)
             if(res.status !== 200){
                 return notification.error({
@@ -63,8 +69,11 @@ const Auth = () => {
                 message: 'Usuario verificado correctamente'
             })
             setSteps(1)
+            form.resetFields()
+            setLoading(false)
             setUserEntry('login')
         } catch (error: any) {
+            setLoading(false)
             return notification.error({
                 message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
             })
@@ -84,7 +93,7 @@ const Auth = () => {
                                 <Input prefix={<MailOutlined />} placeholder='Correo Electrónico' />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Enviar código</Button>
+                                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Enviar código' }</Button>
                             </Form.Item>
                         </Form>
                     </>
@@ -100,7 +109,7 @@ const Auth = () => {
                                 <Input prefix={<LockOutlined />} placeholder='Código' />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Enviar código</Button>
+                                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Verificar cuenta' }</Button>
                             </Form.Item>
                         </Form>
                     </>

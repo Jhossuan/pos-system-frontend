@@ -2,12 +2,13 @@ import { Col, Form, Input, Button, Divider, notification } from 'antd'
 import { BigText, InputCard, SmallText } from '../../styles/AuthStyles'
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { validateMessages } from '../../utils/input_validation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { AuthService } from '../../services/auth_service';
 
 const Login = () => {
 
+  const [ loading, setLoading ] = useState<boolean>(false)
   const { setUserEntry } = useContext(AppContext)
   const [form] = Form.useForm()
   const authData = new AuthService()
@@ -20,6 +21,7 @@ const Login = () => {
       })
     }
     try {
+        setLoading(true)
         const res = await authData.Login(data)
         if(res.status !== 200){
           return notification.error({
@@ -27,8 +29,11 @@ const Login = () => {
           })
         }
         sessionStorage.setItem('token', res.data.token)
+        form.resetFields()
         location.reload()
+        setLoading(false)
     } catch (error: any) {
+        setLoading(false)
         return notification.error({
           message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
         })
@@ -52,8 +57,8 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Iniciar Sesión</Button>
-                <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }} onClick={() => setUserEntry('forgotPassword')}>Olvidé mi contraseña</span></SmallText>
+              <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Iniciar Sesión' }</Button>
+              <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }} onClick={() => setUserEntry('forgotPassword')}>Olvidé mi contraseña</span></SmallText>
             </Form.Item>
 
           </Form>

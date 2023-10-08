@@ -11,6 +11,7 @@ const Register = () => {
 
   const [ step, setStep ] = useState<number>(0)
   const [ uid, setUid ] = useState<string>("")
+  const [ loading, setLoading ] = useState<boolean>(false)
 
   const { setUserEntry } = useContext(AppContext)
   const [form] = Form.useForm()
@@ -32,6 +33,7 @@ const Register = () => {
       }
     }
     try {
+      setLoading(true)
       const res = await authData.Register(request)
       if(res.status !== 200){
         return notification.error({
@@ -42,8 +44,11 @@ const Register = () => {
         message: "¡Usuario creado correctamente!"
       })
       setUid(res.data.uid)
+      form.resetFields()
+      setLoading(false)
       setStep(1)
     } catch (error: any) {
+      setLoading(false)
       return notification.error({
         message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
       })
@@ -66,6 +71,7 @@ const Register = () => {
       position: 'OWNER'
     }
     try {
+      setLoading(true)
       const res = await authData.CompleteProfile(request)
       if(res.status !== 200){
         return notification.error({
@@ -75,8 +81,11 @@ const Register = () => {
       notification.success({
         message: "¡Perfil creado correctamente!"
       })
+      form.resetFields()
+      setLoading(false)
       setUserEntry('login')
     } catch (error: any) {
+      setLoading(false)
       return notification.error({
         message: error?.response?.data?.msg ||'¡Upss! Ha ocurrido un error. Intenta nuevamente.'
       })
@@ -133,7 +142,7 @@ const Register = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Crear Usuario</Button>
+                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Crear Usuario' }</Button>
                 {/* <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }}>Olvidé mi contraseña</span></SmallText> */}
               </Form.Item>
 
@@ -173,8 +182,7 @@ const Register = () => {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" htmlType="submit" style={{ width:'100%' }}>Crear Perfil</Button>
-                {/* <SmallText fontSize='1em' textAlign='left'><span style={{ color:"#0366d6", cursor: 'pointer' }}>Olvidé mi contraseña</span></SmallText> */}
+                <Button loading={loading} type="primary" htmlType="submit" style={{ width:'100%' }}>{ loading ? 'Cargando ...' : 'Crear Perfil' }</Button>
               </Form.Item>
 
             </Form>
